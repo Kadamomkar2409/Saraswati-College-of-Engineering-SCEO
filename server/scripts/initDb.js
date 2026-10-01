@@ -79,6 +79,28 @@ async function initDatabase() {
         INDEX idx_student_name (first_name, last_name)
       ) ENGINE=InnoDB;
     `);
+          // 4. Notices & College Events Table
+    await connection.query(`
+      CREATE TABLE IF NOT EXISTS notices_events (
+        id INT AUTO_INCREMENT PRIMARY KEY,
+        type ENUM('Notice', 'Event') NOT NULL,
+        title VARCHAR(200) NOT NULL,
+        description TEXT NOT NULL,
+        event_date DATE DEFAULT NULL,
+        event_time TIME DEFAULT NULL,
+        venue VARCHAR(200) DEFAULT NULL,
+        created_by INT DEFAULT NULL,
+        is_active BOOLEAN DEFAULT TRUE,
+        created_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
+        updated_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP,
+        CONSTRAINT fk_notice_event_admin
+          FOREIGN KEY (created_by) REFERENCES admins(id)
+          ON DELETE SET NULL,
+        INDEX idx_type (type),
+        INDEX idx_event_date (event_date),
+        INDEX idx_is_active (is_active)
+      ) ENGINE=InnoDB;
+    `);
 
     console.log('Seeding departments...');
     const departments = [

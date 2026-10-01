@@ -3,6 +3,7 @@ const cors = require('cors');
 const dotenv = require('dotenv');
 const db = require('./config/db');
 const errorHandler = require('./middleware/errorHandler');
+const noticeEventRoutes = require('./routes/noticeEventRoutes');
 
 // Route imports
 const authRoutes = require('./routes/authRoutes');
@@ -38,6 +39,7 @@ app.use('/api/auth', authRoutes);
 app.use('/api/departments', departmentRoutes);
 app.use('/api/dashboard', dashboardRoutes);
 app.use('/api/students', studentRoutes);
+app.use('/api/notices-events', noticeEventRoutes);
 
 const path = require('path');
 const clientDistPath = path.join(__dirname, '../client/dist');
